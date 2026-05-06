@@ -1,2 +1,3 @@
 # redred
-Reddit reducer: tiny local reddit summarizer
+
+reddit reducer: tiny local reddit summarizer
