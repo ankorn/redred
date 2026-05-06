@@ -15,7 +15,7 @@
   - [ ] r=128
   - [ ] check summary len, if needed: MAX_SEQ_LENGTH=1024
 
-- [ ] (bug) check if chat-formatted string used in eval(<|im_start|>); remove
+- [x] (bug) check if chat-formatted string used in eval(<|im_start|>); remove
 
 - [ ] check q4 rouge, actual local enference speed
 - [ ] check q8 rouge, actual local enference speed
