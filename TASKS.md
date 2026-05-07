@@ -12,8 +12,9 @@
 
 - [ ] (bug) rouge low(rouge1: 0.1402): merge_and_unload in eval:
   - [ ] more steps
-  - [ ] r=128
-  - [ ] check summary len, if needed: MAX_SEQ_LENGTH=1024
+  - [x] r=64
+  - [ ] check summary len, if needed: MAX_SEQ_LENGTH=1024; cut text on format_chat
+  - [x] collator with response_template="<|im_start|>assistant\n"
 
 - [x] (bug) check if chat-formatted string used in eval(<|im_start|>); remove
 
@@ -24,3 +25,5 @@
 - [ ] duplicates
 
 - [ ] uploda onnx model
+
+- [ ] after eval fine-tune generation
