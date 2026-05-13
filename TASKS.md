@@ -17,7 +17,7 @@
   - [x] r=64
   - [ ] check summary len, if needed: MAX_SEQ_LENGTH=1024; cut text on format_chat
   - [x] collator with response_template="<|im_start|>assistant\n"
-  - [ ] cut few very long texts
+  - [x] remove few very long texts
   - [ ] length_penalty: -0.5
 
 - [x] (bug) check if chat-formatted string used in eval(<|im_start|>); remove
@@ -26,8 +26,10 @@
 - [ ] check q8 rouge, actual local enference speed
 - [ ] (?) q4 less supported?
 
-- [ ] duplicates
+- [x] duplicates
 
 - [ ] uploda onnx model
 
 - [ ] after eval fine-tune generation
+
+- [ ] handle non-englesh
