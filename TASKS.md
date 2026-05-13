@@ -17,7 +17,8 @@
   - [x] r=64
   - [ ] check summary len, if needed: MAX_SEQ_LENGTH=1024; cut text on format_chat
   - [x] collator with response_template="<|im_start|>assistant\n"
-  - [ ] cut few vary long texts
+  - [ ] cut few very long texts
+  - [ ] length_penalty: -0.5
 
 - [x] (bug) check if chat-formatted string used in eval(<|im_start|>); remove
 
