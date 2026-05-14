@@ -35,3 +35,8 @@
 - [ ] after eval fine-tune generation
 
 - [ ] handle non-englesh
+
+- [ ] use rouge for checkpoint selection and early stopping
+- [ ] evaluate on 500 examples
+- [ ] add a small "general instruction" validation set(100 diverse prompts)
+- [ ] try r=32, alpha=64, lr=2e-4, lora_dropout=0.1
