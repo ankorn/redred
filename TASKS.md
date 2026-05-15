@@ -8,6 +8,8 @@
 
 #### chat llm
 
+- [ ] archive 0.25 rouge1
+
 - [ ] consider Pleias model: Pleias-RAG-350m, Pleias-RAG-1B
 
 - [ ] (?) is qwen quantization needed concidering that after train we use onnx quantization?
@@ -30,7 +32,7 @@
 - [x] remove non-english texts
 - [x] remove duplicates
 
-- [ ] uploda onnx model
+- [ ] upload onnx model
 
 - [ ] after eval fine-tune generation
 
