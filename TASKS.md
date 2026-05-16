@@ -38,7 +38,6 @@
 
 - [ ] handle non-englesh
 
-- [ ] use rouge for checkpoint selection and early stopping
-- [ ] evaluate on 500 examples
-- [ ] add a small "general instruction" validation set(100 diverse prompts)
-- [ ] try r=32, alpha=64, lr=2e-4, lora_dropout=0.1
+- [x] use rouge for checkpoint selection and early stopping
+- [x] (bug) oom during evaluation
+  - [x] add preprocess_logits_for_metrics
