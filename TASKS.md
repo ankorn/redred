@@ -41,3 +41,4 @@
 - [x] use rouge for checkpoint selection and early stopping
 - [x] (bug) oom during evaluation
   - [x] add preprocess_logits_for_metrics
+  - [x] custom prediction_step with optimizations
