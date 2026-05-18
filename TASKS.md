@@ -12,7 +12,7 @@
 
 - [ ] consider Pleias model: Pleias-RAG-350m, Pleias-RAG-1B
 
-- [ ] (?) is qwen quantization needed concidering that after train we use onnx quantization?
+- [x] remove qwen quantization, use onnx quantization
 
 - [x] (bug) rouge low(rouge1: 0.1402): merge_and_unload in eval:
   - [x] more steps
@@ -34,9 +34,9 @@
 
 - [ ] upload onnx model
 
-- [ ] after eval fine-tune generation
+- [x] after eval fine-tune generation
 
-- [ ] handle non-englesh
+- [x] handle non-englesh
 
 - [x] use rouge for checkpoint selection and early stopping
 - [x] (bug) oom during evaluation
