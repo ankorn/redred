@@ -14,7 +14,7 @@
 
 - [x] remove qwen quantization, use onnx quantization
 
-- [x] (bug) rouge low(rouge1: 0.1402): merge_and_unload in eval:
+- [x] (bug) rouge low(rouge1: 0.1402)
   - [x] more steps
   - [x] r=64
   - [x] check summary len, if needed: MAX_SEQ_LENGTH=1024; cut text on format_chat
