@@ -42,3 +42,5 @@
 - [x] (bug) oom during evaluation
   - [x] add preprocess_logits_for_metrics
   - [x] custom prediction_step with optimizations
+
+- [ ] unsloth
