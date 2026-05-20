@@ -46,7 +46,8 @@
 - [ ] unsloth
 
 - [ ] rouge1 0.17, which is suboptimal
-  - [ ] check overfitting due to to big lora rank, use 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500
+  - [x] check overfitting due to to big lora rank, use 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500; result: rouge1: 0.158
+  - [x] try all above with lr 2e-4
 
 MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
 NUM_SAMPLES = 150_000
