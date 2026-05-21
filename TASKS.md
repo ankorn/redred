@@ -46,11 +46,16 @@
 - [ ] unsloth
 
 - [ ] rouge1 0.17, which is suboptimal
-  - [x] check overfitting due to to big lora rank; try 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500; result: rouge1: 0.158
+  - [x] check overfitting due to to big lora rank; try 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500; LR_SCHEDULE_TYPE='cosine'
+    - consistent improvement over 4500 steps; slow; rouge1: 0.158
   - [x] try all above with lr 2e-4
-    - rouge1: 0.183
+    - rouge1: 0.183; after started decaying
+  - [x] try all above with lr 1.5e-4
+    - rouge1: \_
   - [x] try LEARNING_RATE = 2e-4; WEIGHT_DECAY = 0.05; LABEL_SMOOTHING_FACTOR = 0.1; LORA_DROPOUT = 0.3; GRAD_ACCUMULATION = 8; LR_SCHEDULE_TYPE='linear'; WARMUP_STEPS = 500; NUM_SAMPLES=500_000;
-    - rouge1: 0.152
+    - early stopped at 2000 steps; rouge1: 0.152
+  - [x] try LEARNING_RATE = 1.5e-4; WEIGHT_DECAY = 0.01; LORA_DROPOUT = 0.2; LR_SCHEDULE_TYPE='constant_with_warmup'
+    - inconsistent loss, max rouge1: 0.152
 
 - [x] add subreddit name to prompt
 - [ ] try only eos_token_id stop
