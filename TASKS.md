@@ -46,20 +46,27 @@
 - [ ] unsloth
 
 - [ ] rouge1 0.17, which is suboptimal
-  - [x] check overfitting due to to big lora rank, use 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500; result: rouge1: 0.158
+  - [x] check overfitting due to to big lora rank; try 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500; result: rouge1: 0.158
   - [x] try all above with lr 2e-4
+    - rouge1: 0.183
+  - [x] try LEARNING_RATE = 2e-4; WEIGHT_DECAY = 0.05; LABEL_SMOOTHING_FACTOR = 0.1; LORA_DROPOUT = 0.3; GRAD_ACCUMULATION = 8; LR_SCHEDULE_TYPE='linear'; WARMUP_STEPS = 500; NUM_SAMPLES=500_000;
+    - rouge1: 0.152
+
+- [x] add subreddit name to prompt
+- [ ] try only eos_token_id stop
 
 MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
 NUM_SAMPLES = 150_000
-MAX_SEQ_LENGTH = 1024
-LORA_R = 32
-LORA_ALPHA = 64
-LORA_DROPOUT = 0.1
+MAX_SEQ_LENGTH = 1500
+LORA_R = 16
+LORA_ALPHA = LORA_R \* 2
+LORA_DROPOUT = 0.2
 BATCH_SIZE = 8
 GRAD_ACCUMULATION = 4
 LEARNING_RATE = 2e-4
 NUM_EPOCHS = 1
-WARMUP_RATIO = 0.03
+WARMUP_RATIO = 0.1
+MAX_NEW_TOKENS=128
 
 dataset = load_dataset("webis/tldr-17", split="train", trust_remote_code=True, streaming=True)
 
@@ -99,7 +106,7 @@ task_type=TaskType.CAUSAL_LM,
 model = get_peft_model(model, lora_cfg)
 
 eval_generation_config = GenerationConfig(
-max_new_tokens=64,
+max_new_tokens=MAX_NEW_TOKENS,
 do_sample=False,
 num_beams=1,
 early_stopping=True,
