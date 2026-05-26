@@ -61,6 +61,7 @@
 - [ ] try only eos_token_id stop
 
 - [ ] gemma
+  - [ ] convert dataset to hf
   - [ ] think during inference
   - [ ] base
   - [ ] instuct
