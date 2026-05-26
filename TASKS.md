@@ -66,3 +66,6 @@
   - [ ] base
   - [ ] instuct
   - [ ] image + text summary: https://aclanthology.org/2023.emnlp-main.251/; https://github.com/Koverbay/mredditsum
+  - [ ] Put image and/or audio before text
+  - [ ] check visual token budget
+  - [ ] remove reddit id from the start
