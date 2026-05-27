@@ -70,3 +70,5 @@
   - [ ] check visual token budget
   - [x] remove reddit id from the start
   - [x] sys prompt
+  - [ ] define metrics apart from rouge
+  - [ ] initial rouge1: 0.3741
