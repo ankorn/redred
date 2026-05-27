@@ -1,12 +1,4 @@
-# train
-
-- [ ] compare seq2seq and chat llm approaches
-
-#### seq2seq
-
-- [ ] flat train loss; possibly streaming=True issue
-
-#### chat llm
+#### qwen + tl;dr dataset
 
 - [ ] archive 0.25 rouge1
 
@@ -60,6 +52,8 @@
 - [x] add subreddit name to prompt
 - [ ] try only eos_token_id stop
 
+## gemma + unsloth + mredditsum
+
 - [ ] gemma
   - [ ] convert dataset to hf
   - [ ] think during inference
@@ -71,4 +65,4 @@
   - [x] remove reddit id from the start
   - [x] sys prompt
   - [ ] define metrics apart from rouge
-  - [ ] initial rouge1: 0.3741
+  - [ ] initial rouge1: 0.3741; rougeLsum: 0.2577
