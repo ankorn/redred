@@ -66,4 +66,5 @@
   - [x] sys prompt
   - [ ] define metrics apart from rouge
   - [ ] initial rouge1: 0.3741; rougeLsum: 0.2577
-  - [ ] remove 'Here is a summary of the Reddit post from the r/designmyroom subreddit'; (system msg?); first fix inf, then eval
+  - [ ] remove 'Here is a summary of the Reddit post from the r/designmyroom subreddit'; (system msg?)
+  - [ ] promt eng to improve model before learning
