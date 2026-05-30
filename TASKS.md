@@ -71,3 +71,4 @@
     - after 1 epoch: rouge1: 0.4369; rougeLsum: 0.2849
     - after 2 epochs: rouge1: 0.4586; rougeLsum: 0.2976
     - after 3 epochs: rouge1:0.4605; rougeLsum: 0.3167
+  - [ ] onnx
