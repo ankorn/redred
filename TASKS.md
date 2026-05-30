@@ -58,13 +58,16 @@
   - [ ] convert dataset to hf
   - [ ] think during inference
   - [ ] base
-  - [ ] instuct
-  - [ ] image + text summary: https://aclanthology.org/2023.emnlp-main.251/; https://github.com/Koverbay/mredditsum
-  - [ ] Put image and/or audio before text
+  - [x] instuct
+  - [x] image + text summary: https://aclanthology.org/2023.emnlp-main.251/; https://github.com/Koverbay/mredditsum
+  - [x] Put image and/or audio before text
   - [ ] check visual token budget
   - [x] remove reddit id from the start
   - [x] sys prompt
-  - [ ] define metrics apart from rouge
-  - [ ] initial rouge1: 0.3741; rougeLsum: 0.2577
-  - [ ] remove 'Here is a summary of the Reddit post from the r/designmyroom subreddit'; (system msg?)
-  - [ ] promt eng to improve model before learning
+  - [x] define metrics apart from rouge
+  - initial rouge1: 0.3741; rougeLsum: 0.2577
+  - [x] remove 'Here is a summary of the Reddit post from the r/designmyroom subreddit'; (system msg?)
+    - initial: rouge1: 0.4346; rougeLsum: 0.2890
+    - after 1 epoch: rouge1: 0.4369; rougeLsum: 0.2849
+    - after 2 epochs: rouge1: 0.4586; rougeLsum: 0.2976
+    - after 3 epochs: rouge1:0.4605; rougeLsum: 0.3167
