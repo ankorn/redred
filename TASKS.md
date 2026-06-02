@@ -72,4 +72,6 @@
     - after 2 epochs: rouge1: 0.4586; rougeLsum: 0.2976
     - after 3 epochs: rouge1:0.4605; rougeLsum: 0.3167
   - [ ] onnx
-    - [ ] without unsloth
+    - [x] without unsloth; did't work without hacking
+    - [x] push merged
+    - [ ] export to onnx without unsloth
