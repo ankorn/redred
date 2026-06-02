@@ -54,7 +54,7 @@
 
 ## gemma + unsloth + mredditsum
 
-- [ ] gemma
+- [x] gemma
   - [ ] convert dataset to hf
   - [ ] think during inference
   - [ ] base
@@ -75,4 +75,10 @@
     - [x] without unsloth; did't work without hacking
     - [x] push merged
     - [ ] export to onnx without unsloth
-    - [ ] implement wrapper class
+    - [x] implement wrapper class
+
+- [ ] deliver model to users
+  - [ ] make it public and share the inference widget
+  - [ ] Ollama?
+  - [ ] vLLM / TGI
+  - [ ] wait onnx export support for fine-tuned multi-modal gemma4
