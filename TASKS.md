@@ -75,3 +75,4 @@
     - [x] without unsloth; did't work without hacking
     - [x] push merged
     - [ ] export to onnx without unsloth
+    - [ ] implement wrapper class
