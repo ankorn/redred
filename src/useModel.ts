@@ -1,9 +1,3 @@
-import { env } from "@huggingface/transformers";
-
-env.allowLocalModels = true;
-env.allowRemoteModels = true;
-env.remotePathTemplate = "https://huggingface.co/{model}/resolve/main/{path}";
-
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
   AutoProcessor,
