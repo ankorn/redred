@@ -1,18 +1,17 @@
+import { env } from "@huggingface/transformers";
+
+env.allowLocalModels = true;
+env.allowRemoteModels = true;
+env.remotePathTemplate = "https://huggingface.co/{model}/resolve/main/{path}";
+
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
-  env,
   AutoProcessor,
   Gemma4ForConditionalGeneration,
 } from "@huggingface/transformers";
 
 const MODEL_ID = "onnx-community/gemma-4-E2B-it-ONNX";
 const CACHE_META_KEY = `redred-model-${MODEL_ID}`;
-
-env.allowLocalModels = true;
-env.allowRemoteModels = true;
-
-// Full URL template with {model} and {path} placeholders
-env.remotePathTemplate = "https://huggingface.co/{model}/resolve/main/{path}";
 
 interface ModelCache {
   processor: any;
