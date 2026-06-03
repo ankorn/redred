@@ -107,4 +107,5 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 - [ ] think during inference performance?
 - [ ] streaming?
 - [ ] summarize top k posts
-- [ ] fix cors
+- [x] fix cors
+- [ ] fix availabilty
