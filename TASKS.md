@@ -7,6 +7,7 @@
 - [x] remove qwen quantization, use onnx quantization
 
 - [x] (bug) rouge low after 500 steps(rouge1 less then 0.1402)
+
   - [x] more steps
   - [x] r=64
   - [x] check summary len, if needed: MAX_SEQ_LENGTH=1024; cut text on format_chat
@@ -32,12 +33,14 @@
 
 - [x] use rouge for checkpoint selection and early stopping
 - [x] (bug) oom during evaluation
+
   - [x] add preprocess_logits_for_metrics
   - [x] custom prediction_step with optimizations
 
 - [ ] unsloth
 
 - [ ] rouge1 0.17, which is suboptimal
+
   - [x] check overfitting due to to big lora rank; try 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500; LR_SCHEDULE_TYPE='cosine'
     - consistent improvement over 4500 steps; slow; rouge1: 0.158
   - [x] try all above with lr 2e-4
@@ -108,4 +111,5 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 - [ ] streaming?
 - [ ] summarize top k posts
 - [x] fix cors
-- [ ] fix availabilty
+- [x] fix availabilty
+- [x] fix shared progress

@@ -26,13 +26,13 @@ export function useModel() {
     const load = async () => {
       setStatus("checking");
 
-      const cached = localStorage.getItem(CACHE_META_KEY);
-      if (cached) {
-        setProgress(100);
-        setStatus("ready");
-        cache.current = JSON.parse(cached);
-
-        return;
+      const meta = localStorage.getItem(CACHE_META_KEY);
+      if (meta) {
+        const { cached } = JSON.parse(meta);
+        if (cached) {
+          setProgress(100);
+          setStatus("ready");
+        }
       }
 
       setStatus("loading");
@@ -62,7 +62,7 @@ export function useModel() {
               setProgress(Math.round(info.progress));
             }
           },
-        },
+        }
       );
 
       if (!active) return;
@@ -70,7 +70,7 @@ export function useModel() {
       cache.current = { processor, model };
       localStorage.setItem(
         CACHE_META_KEY,
-        JSON.stringify({ ...cache.current, timestamp: Date.now() }),
+        JSON.stringify({ cached: true, timestamp: Date.now() }) // no need to save model manually, hf will save if Cache storage
       );
       setStatus("ready");
     };
@@ -112,7 +112,7 @@ export function useModel() {
 
     const decoded = processor.batch_decode(
       outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
-      { skip_special_tokens: true },
+      { skip_special_tokens: true }
     );
 
     return decoded[0]?.trim() || text;
