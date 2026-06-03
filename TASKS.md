@@ -107,12 +107,4 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 - [ ] think during inference performance?
 - [ ] streaming?
 - [ ] summarize top k posts
-
-please write tsx code for the web app:
-
-0. title, subtitle: 'redred', 'lightweight multi-modal subreddit summariser that runs locally securing your privacy'
-1. state and ui for subreddit name input
-2. state and ui for list of reddit posts summaries - few short texts
-3. hook that fetches model and stores in local storage, if it is not already there(reference for model downloading: fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX)
-4. minimalistic warm good looking css style
-5. my github and hf references: https://github.com/ankorn, https://huggingface.co/pameydorke
+- [ ] fix cors
