@@ -77,21 +77,24 @@
     - [ ] export to onnx without unsloth
     - [x] implement wrapper class
 
-- [ ] deliver model to users
-  - [ ] make it public and share the inference widget
-  - [ ] Ollama?
-  - [ ] vLLM / TGI
-  - [ ] web app with original until onnx + optimum export support for fine-tuned multi-modal gemma4
+## delivery ways
 
-- [ ] frontend
-  - [ ] ts + reactQuery + react app
-    - [ ] init
-    - [ ] simple ui: input for subreddit name; list of summaries
-  - [ ] fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX
-  - [ ] fetch reddit top k posts with comments; api or scrap
-  - [ ] apply to text mRedditSum format: post text, OP:..., User1:...; check ds repo for ready utils
-  - [ ] apply to multi-modal data same format as in training
-  - [ ] infer as in evaluations
-  - [ ] think during inference performance?
-  - [ ] streaming?
-  - [ ] summarize top k posts
+- [x] choose a way
+  - make it public and share the inference widget? widget is not enough for subreddit summarization
+  - Ollama? this would mean loosing the freedom of website usage
+  - server? can work with web app, but app originally was intended to use small model; running small model on server does not make much sense
+  - (chosen) use original onnx model until onnx + optimum fine-tuned gemma4 support? this will allow to build a app without significant loss in quality - I only slightly fine-tuned the model, from initial rougeLsum 0.29 to 0.32
+
+## frontend
+
+- [ ] ts + reactQuery + react app
+  - [x] init
+  - [ ] simple ui: input for subreddit name; list of summaries
+- [ ] fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX
+- [ ] fetch reddit top k posts with comments; api or scrap
+- [ ] apply to text mRedditSum format: post text, OP:..., User1:...; check ds repo for ready utils
+- [ ] apply to multi-modal data same format as in training
+- [ ] infer as in evaluations
+- [ ] think during inference performance?
+- [ ] streaming?
+- [ ] summarize top k posts
