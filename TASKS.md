@@ -52,9 +52,9 @@
 - [x] add subreddit name to prompt
 - [ ] try only eos_token_id stop
 
-## change dataset and maybe model
+## change dataset and model
 
-tl;dr summaries are to ironic and short for target task of casual summarization; fine-tuning does not give much improvement due to dataset nature
+tl;dr summaries are too ironic and short for target task of casual summarization; fine-tuning does not give much improvement due to dataset nature
 
 also qwen2.5 is probably not the best model for a task - gemma4 is newer and multi-modal which is very important for summarization of reddit posts where picture holds a lot of meaning
 
