@@ -1,3 +1,3 @@
 # redred
 
-reddit reducer: tiny local reddit summarizer
+reddit reducer: lightweight multi-model subreddit summarizer that runs locally securing yout privacy

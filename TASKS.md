@@ -66,7 +66,7 @@
   - [x] sys prompt
   - [x] define metrics apart from rouge
   - initial rouge1: 0.3741; rougeLsum: 0.2577
-  - [x] remove 'Here is a summary of the Reddit post from the r/designmyroom subreddit'; (system msg?)
+  - [x] remove 'Here is a summary of the Reddit post from the r/designmyroom subreddit'
     - initial: rouge1: 0.4346; rougeLsum: 0.2890
     - after 1 epoch: rouge1: 0.4369; rougeLsum: 0.2849
     - after 2 epochs: rouge1: 0.4586; rougeLsum: 0.2976
@@ -81,4 +81,17 @@
   - [ ] make it public and share the inference widget
   - [ ] Ollama?
   - [ ] vLLM / TGI
-  - [ ] wait onnx export support for fine-tuned multi-modal gemma4
+  - [ ] web app with original until onnx + optimum export support for fine-tuned multi-modal gemma4
+
+- [ ] frontend
+  - [ ] ts + reactQuery + react app
+    - [ ] init
+    - [ ] simple ui: input for subreddit name; list of summaries
+  - [ ] fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX
+  - [ ] fetch reddit top k posts with comments; api or scrap
+  - [ ] apply to text mRedditSum format: post text, OP:..., User1:...; check ds repo for ready utils
+  - [ ] apply to multi-modal data same format as in training
+  - [ ] infer as in evaluations
+  - [ ] think during inference performance?
+  - [ ] streaming?
+  - [ ] summarize top k posts
