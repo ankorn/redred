@@ -31,20 +31,16 @@ export function useModel() {
         const { cached } = JSON.parse(meta);
         if (cached) {
           setProgress(100);
+
           setStatus("ready");
+
+          return;
         }
       }
 
       setStatus("loading");
 
-      const processor = await AutoProcessor.from_pretrained(MODEL_ID, {
-        progress_callback: (info: any) => {
-          if (!active) return;
-          if (info.status === "progress" && typeof info.progress === "number") {
-            setProgress(Math.round(info.progress));
-          }
-        },
-      });
+      const processor = await AutoProcessor.from_pretrained(MODEL_ID);
 
       if (!active) return;
 
@@ -56,13 +52,16 @@ export function useModel() {
           progress_callback: (info: any) => {
             if (!active) return;
             if (
-              info.status === "progress" &&
+              info.status === "progress_total" &&
               typeof info.progress === "number"
             ) {
-              setProgress(Math.round(info.progress));
+              // magick; otherwise progress jumps to 100 swiftly then back to like 8
+              if (info.loaded > 271681761) {
+                setProgress(Math.round(info.progress));
+              }
             }
           },
-        }
+        },
       );
 
       if (!active) return;
@@ -70,7 +69,7 @@ export function useModel() {
       cache.current = { processor, model };
       localStorage.setItem(
         CACHE_META_KEY,
-        JSON.stringify({ cached: true, timestamp: Date.now() }) // no need to save model manually, hf will save if Cache storage
+        JSON.stringify({ cached: true, timestamp: Date.now() }), // no need to save model manually, hf will save if Cache storage
       );
       setStatus("ready");
     };
@@ -112,11 +111,16 @@ export function useModel() {
 
     const decoded = processor.batch_decode(
       outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
-      { skip_special_tokens: true }
+      { skip_special_tokens: true },
     );
 
     return decoded[0]?.trim() || text;
   }, []);
 
-  return { ready: status === "ready", progress, status, summarize };
+  return {
+    ready: status === "ready",
+    progress,
+    status,
+    summarize,
+  };
 }

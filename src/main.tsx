@@ -5,25 +5,10 @@ import App from "./App.tsx";
 
 import { env } from "@huggingface/transformers";
 
-const originalFetch = window.fetch;
-window.fetch = async (input, init) => {
-  const url = typeof input === "string" ? input : (input as Request).url;
-  const res = await originalFetch(input, init);
-
-  if (url.includes("huggingface")) {
-    const clone = res.clone();
-    const text = await clone.text();
-    console.log(
-      `%c[HF] ${res.status} ${url}`,
-      res.ok ? "color:green" : "color:red",
-      text.slice(0, 60),
-    );
-  }
-  return res;
-};
-
 env.allowLocalModels = false;
 env.allowRemoteModels = true;
+env.remoteHost = "https://modelscope.cn";
+env.remotePathTemplate = "models/{model}/resolve/main/"; // https://modelscope.cn/models/onnx-community/gemma-4-E2B-it-ONNX/resolve/main/preprocessor_config.json
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

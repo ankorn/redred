@@ -50,19 +50,21 @@ function App() {
 
       <section className="model-status" aria-live="polite">
         {!ready ? (
-          <div className="progress-block">
-            <div className="progress-track">
-              <div
-                className="progress-fill"
-                style={{ width: `${progress}%` }}
-              />
+          <>
+            <div className="progress-block">
+              <div className="progress-track">
+                <div
+                  className="progress-fill"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <span className="progress-label">
+                {status === "checking"
+                  ? "Checking local cache…"
+                  : `Downloading Gemma 4 E2B ONNX… ${progress}%`}
+              </span>
             </div>
-            <span className="progress-label">
-              {status === "checking"
-                ? "Checking local cache…"
-                : `Downloading Gemma 4 E2B ONNX… ${progress}%`}
-            </span>
-          </div>
+          </>
         ) : (
           <span className="ready-badge">Model ready · running locally</span>
         )}
