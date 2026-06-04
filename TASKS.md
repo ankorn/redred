@@ -84,6 +84,8 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
     - [x] push merged
     - [ ] export to onnx without unsloth
     - [x] implement wrapper class
+  - [x] fix passing target during eval
+  - [ ] reeval
 
 ## delivery ways
 
@@ -111,4 +113,6 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 - [x] fix availabilty
 - [x] fix shared progress
 - [x] use hf mirror: https://modelscope.cn/models/onnx-community/gemma-4-E2B-it-ONNX
-- [ ] find out why 3.5gb
+- [x] find out why 3.5gb
+- [ ] add delay for downloading progress bar
+- [ ] progress of generation

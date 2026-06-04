@@ -38,6 +38,11 @@ function App() {
   // const [busy, setBusy] = useState(false);
   const { ready, progress, status, summarize } = useModel();
 
+  const handleSummarize = async () => {
+    const s = await summarize("placeholder");
+    console.log(">>>", s);
+  };
+
   return (
     <div className="redred-app">
       <header className="app-header">
@@ -78,7 +83,7 @@ function App() {
           value={subreddit}
           onChange={(e) => setSubreddit(e.target.value)}
           placeholder="machinelearning"
-          // onKeyDown={(e) => e.key === "Enter" && handleSummarize()}
+          onKeyDown={(e) => e.key === "Enter" && handleSummarize()}
         />
         {/* <button
           onClick={handleSummarize}
