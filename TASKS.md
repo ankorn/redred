@@ -7,6 +7,7 @@
 - [x] remove qwen quantization, use onnx quantization
 
 - [x] (bug) rouge low after 500 steps(rouge1 less then 0.1402)
+
   - [x] more steps
   - [x] r=64
   - [x] check summary len, if needed: MAX_SEQ_LENGTH=1024; cut text on format_chat
@@ -32,12 +33,14 @@
 
 - [x] use rouge for checkpoint selection and early stopping
 - [x] (bug) oom during evaluation
+
   - [x] add preprocess_logits_for_metrics
   - [x] custom prediction_step with optimizations
 
 - [ ] unsloth
 
 - [ ] rouge1 0.17, which is suboptimal
+
   - [x] check overfitting due to to big lora rank; try 16 r; 1e-4; dropout=0.2; warmup_ratio=0.1; max_new_tokens=128; early_stopping=False; MAX_SEQ_LENGTH=1500; LR_SCHEDULE_TYPE='cosine'
     - consistent improvement over 4500 steps; slow; rouge1: 0.158
   - [x] try all above with lr 2e-4
@@ -97,10 +100,10 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 
 ## frontend
 
-- [ ] ts + reactQuery + react app
+- [x] ts + reactQuery + react app
   - [x] init
-  - [ ] simple ui: input for subreddit name; list of summaries
-- [ ] fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX
+  - [x] simple ui: input for subreddit name; list of summaries
+- [x] fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX
 - [ ] fetch reddit top k posts with comments; api or scrap
 - [ ] apply to text mRedditSum format: post text, OP:..., User1:...; check ds repo for ready utils
 - [ ] make shure it's an image, not a gif
@@ -116,3 +119,14 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 - [x] find out why 3.5gb
 - [ ] add delay for downloading progress bar
 - [ ] progress of generation
+
+please write typescript function: (subredditname: string) => Array<{ text: string, url: string }>
+
+function specification: 0. download k today's top post from subreddit using axios
+
+1. handle error
+2. use post contract: { postTextContent: string, imageUrl: string, comments }; not sure about comments contract, please come up with one
+   2.1. only take top 4 comments and comments to this top comments with max depth of 3
+3. format post text and comments in one string the following way: `Original Post: %{postTextContent}. OP: ${OPComment if any}. User 1: ${user1Comment}. User 2: %{user2Comment}. OP: %{anotherOPComment}...`; users should be nameless, OP should be OP
+   3.1 format from previous step is mRedditSum dataset format: https://github.com/Koverbay/mredditsum; please check repo for formatting utilities; use original if possible
+4. return Array<{ text: string, url: string }>, where text is formatted post with comments, url is image url
