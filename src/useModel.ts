@@ -112,8 +112,6 @@ Just plain summary without introductory text, titles, subtitles, lists, suggesti
       },
     ];
 
-    // const streamer = new TextStreamer(processor, skip_prompt = True)
-
     const prompt = processor.apply_chat_template(messages, {
       enable_thinking: false,
       add_generation_prompt: true,
@@ -132,6 +130,11 @@ Just plain summary without introductory text, titles, subtitles, lists, suggesti
       top_p: 0.95,
       top_k: 64,
       use_cache: true,
+      // streamer: new TextStreamer(processor.tokenizer, {
+      //   skip_prompt: true,
+      //   skip_special_tokens: false,
+      //   callback_function: (text) => { /* Do something with the streamed output */ },
+      // }),
     });
 
     const decoded = processor.batch_decode(
