@@ -161,6 +161,8 @@ export async function fetchTopPosts(
   const results: PostResultItem[] = [];
 
   try {
+    // "https://functions.yandexcloud.net/d4e4d9s8rbi7flr2iei5?subreddit=funny&limit=2&maxComments=3&depth=4"
+
     // 1. Fetch top posts
     const postsUrl = `${REDDIT_BASE}/r/${subredditName}/top.json?limit=${k}&t=day`;
     const postsRes = await axios.get(postsUrl, {

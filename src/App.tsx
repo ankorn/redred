@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./App.css";
 import { useModel } from "./useModel";
 import { fetchTopPosts, type PostResultItem } from "./fetchRedditPosts";
+import axios from "axios";
 
 // const mockPosts: Post[] = [
 //   {
@@ -29,7 +30,7 @@ function App() {
   const [subreddit, setSubreddit] = useState("");
   const [posts, setPosts] = useState<PostResultItem[]>([]);
   // const [busy, setBusy] = useState(false);
-  const { ready, progress, status, summarize } = useModel();
+  const { ready, progress, status, summarize, cached } = useModel();
 
   const handleSummarize = async () => {
     const posts = await fetchTopPosts(subreddit);
@@ -62,7 +63,7 @@ function App() {
               <span className="progress-label">
                 {status === "checking"
                   ? "Checking local cache…"
-                  : `Downloading Gemma 4 E2B ONNX… ${progress}%`}
+                  : `${cached ? "Loading from cache" : "Downloading"} Gemma 4 E2B ONNX… ${progress}%`}
               </span>
             </div>
           </>

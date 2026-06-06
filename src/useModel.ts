@@ -32,27 +32,27 @@ export function useModel() {
 
   const cache = useRef<ModelCache | null>(null);
 
+  let cached = false;
+  const meta = localStorage.getItem(CACHE_META_KEY);
+  if (meta) {
+    cached = JSON.parse(meta).cached;
+  }
+
   useEffect(() => {
     let active = true;
 
     const load = async () => {
       setStatus("checking");
 
-      const meta = localStorage.getItem(CACHE_META_KEY);
-      if (meta) {
-        const { cached } = JSON.parse(meta);
-        if (cached) {
-          setProgress(100);
-
-          setStatus("ready");
-        }
-      }
-
       setStatus("loading");
 
       const processor = await AutoProcessor.from_pretrained(MODEL_ID);
 
       if (!active) return;
+
+      if (cached) {
+        setProgress(100);
+      }
 
       const model = await Gemma4ForConditionalGeneration.from_pretrained(
         MODEL_ID,
@@ -66,7 +66,7 @@ export function useModel() {
               typeof info.progress === "number"
             ) {
               // magick; otherwise progress jumps to 100 swiftly then back to like 8
-              if (info.loaded > 271681761) {
+              if (!cached && info.loaded > 271681761) {
                 setProgress(Math.round(info.progress));
               }
             }
@@ -77,10 +77,15 @@ export function useModel() {
       if (!active) return;
 
       cache.current = { processor, model };
-      localStorage.setItem(
-        CACHE_META_KEY,
-        JSON.stringify({ cached: true, timestamp: Date.now() }), // no need to save model manually, hf will save if Cache storage
-      );
+
+      if (!cached) {
+        localStorage.setItem(
+          CACHE_META_KEY,
+          // no need to save model manually, hf will save if Cache storage
+          JSON.stringify({ cached: true, timestamp: Date.now() }),
+        );
+      }
+
       setStatus("ready");
     };
 
@@ -147,6 +152,7 @@ Just plain summary without introductory text, titles, subtitles, lists, suggesti
 
   return {
     ready: status === "ready",
+    cached,
     progress,
     status,
     summarize,

@@ -103,9 +103,9 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 - [x] fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX
 - [ ] fetch reddit top k posts with comments; api or scrap
 - [ ] apply to text mRedditSum format: post text, OP:..., User1:...; check ds repo for ready utils
-- [ ] make shure it's an image, not a gif
-- [ ] apply to multi-modal data same format as in training
-- [ ] infer as in evaluations
+- [ ] make sure it's an image, not a gif
+- [x] apply to multi-modal data same format as in training
+- [x] infer as in evaluations
 - [ ] think during inference performance?
 - [ ] streaming?
 - [ ] summarize top k posts
@@ -114,7 +114,10 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 - [x] fix shared progress
 - [x] use hf mirror: https://modelscope.cn/models/onnx-community/gemma-4-E2B-it-ONNX
 - [x] find out why 3.5gb
-- [ ] add delay for downloading progress bar
-- [ ] progress of generation
-- [ ] fix reddit 403
-- [ ] fix reddit cors
+- [x] add delay for downloading progress bar
+- [ ] filter out AutoModerator comments
+- [x] fix reddit cors
+  - [x] clowflare worker? vpn needed
+  - [x] deno deploy? vpn needed
+  - [x] yandex cloud functions
+    - [x] set requests or budget limit
