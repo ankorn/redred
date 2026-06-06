@@ -4,8 +4,9 @@ interface RedditComment {
   id: string;
   author: string;
   body: string;
-  replies?: RedditComment[];
   depth: number;
+  kind: string;
+  replies?: RedditComment[];
 }
 
 interface RedditPost {
@@ -23,6 +24,21 @@ interface RedditPost {
       source: { url: string; width: number; height: number };
       resolutions: Array<{ url: string; width: number; height: number }>;
     }>;
+  };
+}
+
+interface GetRedditDataResponse {
+  data: {
+    children: [
+      {
+        comments: [
+          {
+            data: RedditComment;
+          },
+        ];
+        data: RedditPost;
+      },
+    ];
   };
 }
 
@@ -60,8 +76,9 @@ function extractImageUrl(post: RedditPost): string {
   return "";
 }
 
+// TODO: depth controlled by api, not nned to do it manually
 function flattenComments(
-  commentNode: any,
+  commentNode: RedditComment,
   currentDepth: number,
   maxDepth: number,
 ): RedditComment[] {
@@ -92,7 +109,7 @@ function flattenComments(
 }
 
 function collectTopComments(
-  listingChildren: any[],
+  listingChildren: RedditComment[],
   topN: number,
   maxDepth: number,
 ): RedditComment[] {
@@ -156,61 +173,46 @@ function formatMRedditSum(post: RedditPost, comments: RedditComment[]): string {
 
 export async function fetchTopPosts(
   subredditName: string,
-  k: number = MAX_POSTS,
 ): Promise<PostResultItem[]> {
   const results: PostResultItem[] = [];
 
   try {
-    // "https://functions.yandexcloud.net/d4e4d9s8rbi7flr2iei5?subreddit=funny&limit=2&maxComments=3&depth=4"
+    const baseUrl = "https://functions.yandexcloud.net/d4e4d9s8rbi7flr2iei5";
+    const url =
+      baseUrl +
+      `?subreddit=${subredditName}&limit=${MAX_POSTS}&maxComments=${MAX_TOP_COMMENTS}&depth=${MAX_REPLY_DEPTH}`;
 
-    // 1. Fetch top posts
-    const postsUrl = `${REDDIT_BASE}/r/${subredditName}/top.json?limit=${k}&t=day`;
-    const postsRes = await axios.get(postsUrl, {
-      // headers: { "User-Agent": USER_AGENT },
-      timeout: 15000,
-    });
+    const res = await axios.get(url);
+    const postsData: GetRedditDataResponse = res.data;
 
-    const posts: RedditPost[] =
-      postsRes.data?.data?.children?.map((child: any) => child.data) || [];
+    const posts = postsData?.data?.children || [];
 
     if (!posts.length) {
       console.warn(`No posts found in r/${subredditName}`);
       return [];
     }
 
-    // 2. For each post, fetch comments
     for (const post of posts) {
       try {
-        const imageUrl = extractImageUrl(post);
-
-        // Fetch comment thread
-        const commentsUrl = `${REDDIT_BASE}/r/${subredditName}/comments/${post.id}.json?limit=${MAX_TOP_COMMENTS}&depth=${MAX_REPLY_DEPTH}`;
-        const commentsRes = await axios.get(commentsUrl, {
-          headers: { "User-Agent": USER_AGENT },
-          timeout: 15000,
-        });
-
-        // Reddit returns [postListing, commentListing]
-        const commentListing = commentsRes.data?.[1];
-        const commentChildren = commentListing?.data?.children || [];
+        const imageUrl = extractImageUrl(post.data);
 
         const comments = collectTopComments(
-          commentChildren,
+          post.comments.map(({ data }) => data),
           MAX_TOP_COMMENTS,
           MAX_REPLY_DEPTH,
         );
 
-        const formattedText = formatMRedditSum(post, comments);
+        const formattedText = formatMRedditSum(post.data, comments);
 
         results.push({
           text: formattedText,
           url: imageUrl,
-          id: post.id,
+          id: post.data.id,
         });
       } catch (postErr) {
         const err = postErr as AxiosError;
         console.error(
-          `Failed to fetch comments for post ${post.id}:`,
+          `Failed to fetch comments for post ${post.data.id}:`,
           err.message,
         );
       }
