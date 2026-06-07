@@ -101,14 +101,14 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] init
   - [x] simple ui: input for subreddit name; list of summaries
 - [x] fetch model as in https://huggingface.co/onnx-community/gemma-4-E2B-it-ONNX
-- [ ] fetch reddit top k posts with comments; api or scrap
-- [ ] apply to text mRedditSum format: post text, OP:..., User1:...; check ds repo for ready utils
+- [x] fetch reddit top k posts with comments; api or scrap
+- [x] apply to text mRedditSum format: post text, OP:..., User1:...; check ds repo for ready utils
 - [ ] handle gif
 - [x] apply to multi-modal data same format as in training
 - [x] infer as in evaluations
-- [ ] think during inference performance?
-- [ ] streaming?
-- [ ] summarize top k posts
+- [x] think during inference performance? too many tokens
+- [x] streaming
+- [x] summarize top k posts
 - [x] fix cors
 - [x] fix availabilty
 - [x] fix shared progress

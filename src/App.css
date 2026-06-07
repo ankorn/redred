@@ -108,7 +108,7 @@
   opacity: 0.5;
 }
 
-.input-section button {
+.downloadButton {
   background: var(--accent);
   color: white;
   border: none;
@@ -121,17 +121,18 @@
     background 0.2s,
     transform 0.1s;
   white-space: nowrap;
+  max-width: 500px;
 }
 
-.input-section button:hover:not(:disabled) {
+.downloadButton:hover:not(:disabled) {
   background: var(--accent-hover);
 }
 
-.input-section button:active:not(:disabled) {
+.downloadButton:active:not(:disabled) {
   transform: scale(0.97);
 }
 
-.input-section button:disabled {
+.downloadButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
