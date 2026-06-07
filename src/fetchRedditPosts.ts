@@ -1,12 +1,18 @@
 import axios, { AxiosError } from "axios";
 
 interface RedditComment {
-  id: string;
-  author: string;
-  body: string;
-  depth: number;
+  data: {
+    id: string;
+    author: string;
+    body: string;
+    replies?: {
+      kind: string;
+      data: {
+        children: RedditComment[];
+      };
+    };
+  };
   kind: string;
-  replies?: RedditComment[];
 }
 
 interface RedditPost {
@@ -31,11 +37,7 @@ interface GetRedditDataResponse {
   data: {
     children: [
       {
-        comments: [
-          {
-            data: RedditComment;
-          },
-        ];
+        comments: RedditComment[];
         data: RedditPost;
       },
     ];
@@ -48,11 +50,7 @@ export interface PostResultItem {
   id: string;
 }
 
-// const REDDIT_BASE = "https://www.reddit.com";
-const REDDIT_BASE = "https://corsproxy.io/?https://www.reddit.com";
-
-const USER_AGENT = "mRedditSum-scraper/1.0 (by /u/anonymous)";
-const MAX_TOP_COMMENTS = 4;
+const MAX_TOP_COMMENTS = 7;
 const MAX_REPLY_DEPTH = 3;
 const MAX_POSTS = 3;
 
@@ -76,31 +74,27 @@ function extractImageUrl(post: RedditPost): string {
   return "";
 }
 
-// TODO: depth controlled by api, not nned to do it manually
-function flattenComments(
-  commentNode: RedditComment,
-  currentDepth: number,
-  maxDepth: number,
-): RedditComment[] {
+function flattenComments(commentNode: RedditComment): RedditComment[] {
   if (!commentNode || commentNode.kind === "more") return [];
 
   const data = commentNode.data;
   if (!data) return [];
 
   const comment: RedditComment = {
-    id: data.id,
-    author: data.author,
-    body: data.body || "",
-    depth: currentDepth,
-    replies: [],
+    data: {
+      id: data.id,
+      author: data.author,
+      body: data.body || "",
+      replies: { data: { children: [] }, kind: commentNode.kind },
+    },
+    kind: commentNode.kind,
   };
 
   const result: RedditComment[] = [comment];
 
-  // Process replies if within depth limit
-  if (currentDepth < maxDepth && data.replies?.data?.children) {
+  if (data.replies?.data?.children) {
     for (const child of data.replies.data.children) {
-      const childComments = flattenComments(child, currentDepth + 1, maxDepth);
+      const childComments = flattenComments(child);
       result.push(...childComments);
     }
   }
@@ -108,18 +102,12 @@ function flattenComments(
   return result;
 }
 
-function collectTopComments(
-  listingChildren: RedditComment[],
-  topN: number,
-  maxDepth: number,
-): RedditComment[] {
-  const topLevel = listingChildren
-    .filter((c) => c.kind !== "more")
-    .slice(0, topN);
+function collectTopComments(comments: RedditComment[]): RedditComment[] {
+  const topLevel = comments.filter((c) => c.kind !== "more");
 
   const allComments: RedditComment[] = [];
   for (const child of topLevel) {
-    const flattened = flattenComments(child, 0, maxDepth);
+    const flattened = flattenComments(child);
     allComments.push(...flattened);
   }
   return allComments;
@@ -139,9 +127,9 @@ function formatMRedditSum(post: RedditPost, comments: RedditComment[]): string {
   let userCounter = 1;
 
   for (const comment of comments) {
-    if (comment.author === opName) {
-      userMap.set(comment.id, "OP");
-    } else if (!userMap.has(comment.id)) {
+    if (comment.data.author === opName) {
+      userMap.set(comment.data.id, "OP");
+    } else if (!userMap.has(comment.data.id)) {
       // Use a stable mapping based on first encounter
       // But we need per-comment author mapping, not per-id
     }
@@ -152,19 +140,20 @@ function formatMRedditSum(post: RedditPost, comments: RedditComment[]): string {
   const seenAuthors = new Set<string>();
 
   for (const comment of comments) {
-    if (comment.author === opName) {
-      authorMap.set(comment.author, "OP");
-    } else if (!seenAuthors.has(comment.author)) {
-      seenAuthors.add(comment.author);
-      authorMap.set(comment.author, `User ${userCounter}`);
+    if (comment.data.author === opName) {
+      authorMap.set(comment.data.author, "OP");
+    } else if (!seenAuthors.has(comment.data.author)) {
+      seenAuthors.add(comment.data.author);
+      authorMap.set(comment.data.author, `User ${userCounter}`);
       userCounter++;
     }
   }
 
   // Format comments in order
   for (const comment of comments) {
-    const speaker = authorMap.get(comment.author) || `User ${userCounter++}`;
-    const cleanBody = comment.body.replace(/\s+/g, " ").trim();
+    const speaker =
+      authorMap.get(comment.data.author) || `User ${userCounter++}`;
+    const cleanBody = comment.data.body.replace(/\s+/g, " ").trim();
     text += ` ${speaker}: ${cleanBody}`;
   }
 
@@ -196,10 +185,8 @@ export async function fetchTopPosts(
       try {
         const imageUrl = extractImageUrl(post.data);
 
-        const comments = collectTopComments(
-          post.comments.map(({ data }) => data),
-          MAX_TOP_COMMENTS,
-          MAX_REPLY_DEPTH,
+        const comments = collectTopComments(post.comments).filter(
+          (c) => c.data.author !== "AutoModerator",
         );
 
         const formattedText = formatMRedditSum(post.data, comments);

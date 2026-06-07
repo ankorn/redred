@@ -95,60 +95,67 @@ export function useModel() {
     };
   }, []);
 
-  const summarize = useCallback(async (text: string): Promise<string> => {
-    const { processor, model } = cache.current || {};
-    if (!processor || !model) return text;
+  const summarize = useCallback(
+    async (
+      text: string,
+      subreddit: string,
+      onGenerate: (streamingText: string) => void,
+    ): Promise<string> => {
+      const { processor, model } = cache.current || {};
+      if (!processor || !model) return text;
 
-    const contentText = `Please write a short summary of the following Reddit post from \"${mockPost.subreddit}\" subreddit:
-"${mockPost.source}"
+      const contentText = `Please write a short summary of the following Reddit post from \"${subreddit}\" subreddit:
+"${text}"
 Just plain summary without introductory text, titles, subtitles, lists, suggestions
 `;
 
-    const messages = [
-      {
-        role: "user",
-        content: [
-          { type: "image" },
-          {
-            type: "text",
-            text: contentText,
-          },
-        ],
-      },
-    ];
+      const messages = [
+        {
+          role: "user",
+          content: [
+            { type: "image" },
+            {
+              type: "text",
+              text: contentText,
+            },
+          ],
+        },
+      ];
 
-    const prompt = processor.apply_chat_template(messages, {
-      enable_thinking: false,
-      add_generation_prompt: true,
-    });
+      const prompt = processor.apply_chat_template(messages, {
+        enable_thinking: false,
+        add_generation_prompt: true,
+      });
 
-    const image = await load_image(mockPost.url);
+      const image = await load_image(mockPost.url);
 
-    const inputs = await processor(prompt, image, null, {
-      add_special_tokens: false,
-    });
+      const inputs = await processor(prompt, image, null, {
+        add_special_tokens: false,
+      });
 
-    const outputs = await model.generate({
-      ...inputs,
-      max_new_tokens: 256,
-      temperature: 1.0,
-      top_p: 0.95,
-      top_k: 64,
-      use_cache: true,
-      // streamer: new TextStreamer(processor.tokenizer, {
-      //   skip_prompt: true,
-      //   skip_special_tokens: false,
-      //   callback_function: (text) => { /* Do something with the streamed output */ },
-      // }),
-    });
+      const outputs = await model.generate({
+        ...inputs,
+        max_new_tokens: 256,
+        temperature: 1.0,
+        top_p: 0.95,
+        top_k: 64,
+        use_cache: true,
+        // streamer: new TextStreamer(processor.tokenizer, {
+        //   skip_prompt: true,
+        //   skip_special_tokens: false,
+        //   callback_function: (text) => { /* Do something with the streamed output */ },
+        // }),
+      });
 
-    const decoded = processor.batch_decode(
-      outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
-      { skip_special_tokens: true },
-    );
+      const decoded = processor.batch_decode(
+        outputs.slice(null, [inputs.input_ids.dims.at(-1), null]),
+        { skip_special_tokens: true },
+      );
 
-    return decoded[0]?.trim() || text;
-  }, []);
+      return decoded[0]?.trim() || text;
+    },
+    [],
+  );
 
   return {
     ready: status === "ready",

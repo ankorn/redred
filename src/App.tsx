@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { useModel } from "./useModel";
 import { fetchTopPosts, type PostResultItem } from "./fetchRedditPosts";
-import axios from "axios";
 
 // const mockPosts: Post[] = [
 //   {
@@ -28,16 +27,33 @@ import axios from "axios";
 
 function App() {
   const [subreddit, setSubreddit] = useState("");
-  const [posts, setPosts] = useState<PostResultItem[]>([]);
-  // const [busy, setBusy] = useState(false);
+  const [summaries, setSummaries] = useState<
+    Record<string, { text: string; id: string }>
+  >({});
+
   const { ready, progress, status, summarize, cached } = useModel();
 
   const handleSummarize = async () => {
-    const posts = await fetchTopPosts(subreddit);
-    setPosts(posts);
+    const posts = await fetchTopPosts(subreddit || "machinelearning");
 
-    // const s = await summarize("placeholder");
-    // console.log(">>>", s);
+    // const summaries: { id: string; text: string }[] = [];
+    // for (const { text, id } of posts) {
+    //   const summary = await summarize(text, subreddit);
+
+    //   summaries.push({ id, text: summary });
+    // }
+    posts.forEach(async ({ text, id }, idx) => {
+      await summarize(text, subreddit, (streamingText: string) =>
+        setSummaries((state) => {
+          return {
+            ...state,
+            [String(idx)]: { text: streamingText, id, foo: 123 },
+          };
+        }),
+      );
+    });
+
+    setSummaries(summaries);
   };
 
   return (
@@ -92,7 +108,7 @@ function App() {
 
       {/* Summaries */}
       <section className="summaries">
-        {posts.map(({ text, id }, idx) => (
+        {summaries.map(({ text, id }, idx) => (
           <article
             key={id}
             className="summary-card"
