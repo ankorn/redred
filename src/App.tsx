@@ -42,8 +42,8 @@ function App() {
       <header className="app-header">
         <h1>redred</h1>
         <p>
-          lightweight multi-modal subreddit summariser that runs locally
-          securing your privacy
+          small multi-modal subreddit summariser that runs locally securing your
+          privacy
         </p>
       </header>
 
@@ -51,24 +51,29 @@ function App() {
         {!ready ? (
           <>
             <div className="progress-block">
-              <div className="progress-track">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <span className="progress-label">
-                {status !== "ready" &&
-                  `${cached ? "Loading model from cache" : "Downloading model"}… ${progress}%`}
-              </span>
-              {!cached && (
-                <button
-                  onClick={downloadModel}
-                  className="downloadButton"
-                  disabled={status !== "ready"}
-                >
-                  Download 3GB model. This will only happen once
-                </button>
+              {status === "loading" && (
+                <>
+                  <div className="progress-track">
+                    <div
+                      className="progress-fill"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+
+                  <span className="progress-label">
+                    {`${cached ? "Loading model from cache" : "Downloading model"}… ${progress}%`}
+                  </span>
+                </>
+              )}
+              {!cached && status !== "loading" && (
+                <>
+                  <button onClick={downloadModel} className="downloadButton">
+                    Download 3.5GB model
+                  </button>
+                  <span className="progress-label">
+                    This will only happen once
+                  </span>
+                </>
               )}
             </div>
           </>
@@ -86,7 +91,7 @@ function App() {
           onChange={(e) => setSubreddit(e.target.value)}
           placeholder="machinelearning"
           onKeyDown={(e) => e.key === "Enter" && handleSummarize()}
-          disabled={loading}
+          disabled={!ready}
         />
       </section>
 

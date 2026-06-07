@@ -31,10 +31,6 @@ export function useModel() {
 
     const processor = await AutoProcessor.from_pretrained(MODEL_ID);
 
-    if (cached) {
-      setProgress(100);
-    }
-
     const model = await Gemma4ForConditionalGeneration.from_pretrained(
       MODEL_ID,
       {
@@ -56,13 +52,11 @@ export function useModel() {
 
     cache.current = { processor, model };
 
-    if (!cached) {
-      localStorage.setItem(
-        CACHE_META_KEY,
-        // no need to save model manually, hf will save if Cache storage
-        JSON.stringify({ cached: true, timestamp: Date.now() }),
-      );
-    }
+    localStorage.setItem(
+      CACHE_META_KEY,
+      // no need to save model manually, hf will save if Cache storage
+      JSON.stringify({ cached: true, timestamp: Date.now() }),
+    );
 
     setStatus("ready");
   }, []);
@@ -70,17 +64,14 @@ export function useModel() {
   useEffect(() => {
     let active = true;
 
-    const load = async () => {
+    const loadCached = async () => {
+      if (!cached) return;
+
       setStatus("loading");
 
-      if (cached) {
-        setProgress(100);
-        setStatus("ready");
-
-        return;
-      }
-
       const processor = await AutoProcessor.from_pretrained(MODEL_ID);
+
+      setProgress(100);
 
       if (!active) return;
 
@@ -108,18 +99,10 @@ export function useModel() {
 
       cache.current = { processor, model };
 
-      if (!cached) {
-        localStorage.setItem(
-          CACHE_META_KEY,
-          // no need to save model manually, hf will save if Cache storage
-          JSON.stringify({ cached: true, timestamp: Date.now() }),
-        );
-      }
-
       setStatus("ready");
     };
 
-    load();
+    loadCached();
     return () => {
       active = false;
     };

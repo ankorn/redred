@@ -122,5 +122,7 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] deno deploy? vpn needed
   - [x] yandex cloud functions
     - [x] set requests or budget limit
-- [ ] download button
-  - [ ] rework useModel for manual downloading
+- [x] download button
+  - [x] rework useModel for manual downloading
+- [x] fix endless Loading... when all three posts failed to fetch images
+- [x] github pages

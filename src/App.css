@@ -121,7 +121,7 @@
     background 0.2s,
     transform 0.1s;
   white-space: nowrap;
-  max-width: 500px;
+  max-width: 300px;
 }
 
 .downloadButton:hover:not(:disabled) {
