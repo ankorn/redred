@@ -123,3 +123,4 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] yandex cloud functions
     - [x] set requests or budget limit
 - [ ] download button
+  - [ ] rework useModel for manual downloading

@@ -16,9 +16,7 @@ interface ModelCache {
 
 export function useModel() {
   const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState<
-    "idle" | "checking" | "loading" | "ready"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "ready">("idle");
 
   const cache = useRef<ModelCache | null>(null);
 
@@ -29,8 +27,6 @@ export function useModel() {
   }
 
   const downloadModel = useCallback(async () => {
-    setStatus("checking");
-
     setStatus("loading");
 
     const processor = await AutoProcessor.from_pretrained(MODEL_ID);
@@ -71,62 +67,63 @@ export function useModel() {
     setStatus("ready");
   }, []);
 
-  // useEffect(() => {
-  //   let active = true;
+  useEffect(() => {
+    let active = true;
 
-  //   const load = async () => {
-  //     setStatus("checking");
+    const load = async () => {
+      setStatus("loading");
 
-  //     setStatus("loading");
+      if (cached) {
+        setProgress(100);
+        setStatus("ready");
 
-  //     const processor = await AutoProcessor.from_pretrained(MODEL_ID);
+        return;
+      }
 
-  //     if (!active) return;
+      const processor = await AutoProcessor.from_pretrained(MODEL_ID);
 
-  //     if (cached) {
-  //       setProgress(100);
-  //     }
+      if (!active) return;
 
-  //     const model = await Gemma4ForConditionalGeneration.from_pretrained(
-  //       MODEL_ID,
-  //       {
-  //         dtype: "q4f16",
-  //         device: "webgpu",
-  //         progress_callback: (info: any) => {
-  //           if (!active) return;
-  //           if (
-  //             info.status === "progress_total" &&
-  //             typeof info.progress === "number"
-  //           ) {
-  //             // magick; otherwise progress jumps to 100 swiftly then back to like 8
-  //             if (!cached && info.loaded > 271681761) {
-  //               setProgress(Math.round(info.progress));
-  //             }
-  //           }
-  //         },
-  //       },
-  //     );
+      const model = await Gemma4ForConditionalGeneration.from_pretrained(
+        MODEL_ID,
+        {
+          dtype: "q4f16",
+          device: "webgpu",
+          progress_callback: (info: any) => {
+            if (!active) return;
+            if (
+              info.status === "progress_total" &&
+              typeof info.progress === "number"
+            ) {
+              // magick; otherwise progress jumps to 100 swiftly then back to like 8
+              if (!cached && info.loaded > 271681761) {
+                setProgress(Math.round(info.progress));
+              }
+            }
+          },
+        },
+      );
 
-  //     if (!active) return;
+      if (!active) return;
 
-  //     cache.current = { processor, model };
+      cache.current = { processor, model };
 
-  //     if (!cached) {
-  //       localStorage.setItem(
-  //         CACHE_META_KEY,
-  //         // no need to save model manually, hf will save if Cache storage
-  //         JSON.stringify({ cached: true, timestamp: Date.now() }),
-  //       );
-  //     }
+      if (!cached) {
+        localStorage.setItem(
+          CACHE_META_KEY,
+          // no need to save model manually, hf will save if Cache storage
+          JSON.stringify({ cached: true, timestamp: Date.now() }),
+        );
+      }
 
-  //     setStatus("ready");
-  //   };
+      setStatus("ready");
+    };
 
-  //   load();
-  //   return () => {
-  //     active = false;
-  //   };
-  // }, []);
+    load();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const summarize = useCallback(
     async (

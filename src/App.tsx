@@ -58,9 +58,8 @@ function App() {
                 />
               </div>
               <span className="progress-label">
-                {status === "checking"
-                  ? "Checking local cache…"
-                  : `${cached ? "Loading model from cache" : "Downloading model"}… ${progress}%`}
+                {status !== "ready" &&
+                  `${cached ? "Loading model from cache" : "Downloading model"}… ${progress}%`}
               </span>
               {!cached && (
                 <button
