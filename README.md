@@ -1,6 +1,6 @@
 # redred
 
-reddit reducer: lightweight multi-modal subreddit summariser that runs locally securing your privacy
+[reddit reducer](https://ankorn.github.io/redred/): small multi-modal subreddit summariser that runs locally securing your privacy
 
 # React + TypeScript + Vite
 
