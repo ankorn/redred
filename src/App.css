@@ -25,6 +25,13 @@
   line-height: 1.5;
 }
 
+.app-header li {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
 /* Model status */
 .model-status {
   font-size: 0.85rem;
@@ -226,4 +233,8 @@
   max-width: 300px;
   display: flex;
   justify-content: center;
+}
+
+ul {
+  list-style-position: inside;
 }

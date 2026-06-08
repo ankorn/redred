@@ -41,10 +41,16 @@ function App() {
     <div className="redred-app">
       <header className="app-header">
         <h1>redred</h1>
-        <p>
-          small multi-modal subreddit summariser that runs locally securing your
-          privacy
-        </p>
+        <details open>
+          <summary>
+            small multi-modal subreddit summariser that runs locally
+          </summary>
+          <ul>
+            <li>handles posts, comments and images</li>
+            <li>protects you from Reddit’s notorious toxicity</li>
+            <li>zero data footprint: all processing happens on your device</li>
+          </ul>
+        </details>
       </header>
 
       <section className="model-status" aria-live="polite">
