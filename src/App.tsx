@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./App.css";
 import { useModel } from "./useModel";
 import { fetchTopPosts } from "./fetchRedditPosts";
+import type { AxiosError } from "axios";
 
 function App() {
   const [subreddit, setSubreddit] = useState("");
@@ -10,6 +11,9 @@ function App() {
     Record<string, { text: string; id: string }>
   >({});
   const [loading, setLoading] = useState(false);
+  const [postsFetchError, setPostsFetchError] = useState<AxiosError | null>(
+    null,
+  );
 
   const { ready, progress, status, summarize, cached, downloadModel } =
     useModel();
@@ -18,10 +22,18 @@ function App() {
     setLoading(true);
 
     setSummaries({});
+    setPostsFetchError(null);
 
-    const posts = await fetchTopPosts(subreddit || "machinelearning");
+    const postsResult = await fetchTopPosts(subreddit || "machinelearning");
+    if (!("length" in postsResult)) {
+      setPostsFetchError(postsResult);
 
-    posts.forEach(async ({ text, id, url }, idx) => {
+      setLoading(false);
+
+      return;
+    }
+
+    postsResult.forEach(async ({ text, id, url }, idx) => {
       await summarize({ text, url }, subreddit, (streamingText: string) =>
         setSummaries((state) => {
           setLoading(false);
@@ -67,7 +79,7 @@ function App() {
                   </div>
 
                   <span className="progress-label">
-                    {`${cached ? "Loading model from cache" : "Downloading model"}… ${progress}%`}
+                    {`${cached ? "loading model from cache" : "downloading model"}… ${progress}%`}
                   </span>
                 </>
               )}
@@ -103,7 +115,14 @@ function App() {
 
       <section className="summaries">
         {loading && (
-          <p className="summary-text">Loading "{subreddit}" posts...</p>
+          <p className="summary-text">loading "{subreddit}" posts...</p>
+        )}
+        {postsFetchError && (
+          <p className="summary-text">
+            {postsFetchError.response?.status === 404
+              ? "subreddit not found"
+              : "something went wrong, reload page and repeat later"}
+          </p>
         )}
         {Object.keys(summaries).map((key, idx) => (
           <article

@@ -162,7 +162,7 @@ function formatMRedditSum(post: RedditPost, comments: RedditComment[]): string {
 
 export async function fetchTopPosts(
   subredditName: string,
-): Promise<PostResultItem[]> {
+): Promise<PostResultItem[] | AxiosError> {
   const results: PostResultItem[] = [];
 
   try {
@@ -211,6 +211,8 @@ export async function fetchTopPosts(
       console.error("Status:", error.response.status);
       console.error("Data:", error.response.data);
     }
+
+    return error;
   }
 
   return results;
