@@ -70,7 +70,7 @@ function App() {
                   <button onClick={downloadModel} className="downloadButton">
                     Download 3.5GB model
                   </button>
-                  <span className="progress-label">
+                  <span className="button-subtext">
                     This will only happen once
                   </span>
                 </>

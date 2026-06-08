@@ -219,3 +219,11 @@
 .dot {
   user-select: none;
 }
+
+.button-subtext {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+}
