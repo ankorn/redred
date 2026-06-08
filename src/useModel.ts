@@ -141,7 +141,12 @@ Just plain summary without introductory text, titles, subtitles, lists, suggesti
           add_generation_prompt: true,
         });
 
-        const image = await load_image(url);
+        let image = null;
+        try {
+          image = await load_image(url);
+        } catch (err) {
+          console.warn(err);
+        }
 
         const inputs = await processor(prompt, image, null, {
           add_special_tokens: false,

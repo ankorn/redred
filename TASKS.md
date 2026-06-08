@@ -126,3 +126,6 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] rework useModel for manual downloading
 - [x] fix endless Loading... when all three posts failed to fetch images
 - [x] github pages
+- [ ] fix images failing at github pages
+  - [ ] yandex cloud function for image proxy
+- [ ] handle non existing subreddit
