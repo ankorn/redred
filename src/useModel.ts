@@ -14,6 +14,12 @@ interface ModelCache {
   model: any;
 }
 
+const IMAGE_PROXY_BASE =
+  "https://functions.yandexcloud.net/d4e3ktrtplkljioqk8sd?imageUrl=";
+function proxyImageUrl(originalUrl: string) {
+  return IMAGE_PROXY_BASE + encodeURIComponent(originalUrl);
+}
+
 export function useModel() {
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<"idle" | "loading" | "ready">("idle");
@@ -143,7 +149,7 @@ Just plain summary without introductory text, titles, subtitles, lists, suggesti
 
         let image = null;
         try {
-          image = await load_image(url);
+          image = await load_image(proxyImageUrl(url));
         } catch (err) {
           console.warn(err);
         }
