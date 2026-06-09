@@ -63,7 +63,7 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
 ## gemma + unsloth + mredditsum
 
 - [x] gemma
-  - [ ] convert dataset to hf
+  - [x] convert dataset to hf
   - [ ] think during inference
   - [ ] base
   - [x] instuct
@@ -94,6 +94,7 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - Ollama? this would mean loosing the freedom of website usage
   - server? can work with web app, but app originally was intended to use small model; running small model on server does not make much sense
   - (chosen) use original onnx model until onnx + optimum fine-tuned gemma4 support? this will allow to build a app without significant loss in quality - I only slightly fine-tuned the model, from initial rougeLsum 0.29 to 0.32
+- [ ] switch to fine-tuned model as soon as optimum-onnx start supporting transformers >=5.5.x: https://github.com/huggingface/optimum-onnx/issues/114
 
 ## frontend
 
