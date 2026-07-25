@@ -85,7 +85,6 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
     - [ ] export to onnx without unsloth
     - [x] implement wrapper class
   - [x] fix passing target during eval
-  - [ ] reeval
 
 ## delivery ways
 
@@ -96,7 +95,7 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - (chosen) use original onnx model until onnx + optimum fine-tuned gemma4 support? this will allow to build a app without significant loss in quality - I only slightly fine-tuned the model, from initial rougeLsum 0.29 to 0.32
 - [ ] switch to fine-tuned model as soon as optimum-onnx start supporting transformers >=5.5.x: https://github.com/huggingface/optimum-onnx/issues/114
 
-## frontend
+## frontend + backend
 
 - [x] ts + reactQuery + react app
   - [x] init
