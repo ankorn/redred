@@ -85,6 +85,7 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
     - [ ] export to onnx without unsloth
     - [x] implement wrapper class
   - [x] fix passing target during eval
+  - [ ] eval via ragas
 
 ## delivery ways
 
