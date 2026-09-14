@@ -139,7 +139,7 @@ function App() {
 
       <footer className="app-footer">
         <a
-          href="https://github.com/ankorn"
+          href="https://github.com/ankorn/redred"
           target="_blank"
           rel="noopener noreferrer"
         >
