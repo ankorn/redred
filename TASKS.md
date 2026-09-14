@@ -135,4 +135,5 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] YCF: https://functions.yandexcloud.net/d4eg9ap7ucsan36isgk8
     - [ ] (bug) fails due to tokenizer file being more then YCF limit of 3.5 MB
   - [ ] use hf, handle this error and communicate to user
-    - [ ] useModel error handling: status 503
+    - [ ] useModel error handling: status 403, 429; 403 means a lot of things, but in my case only one is realistic: geo-block
+- [ ] handle empty input, remove 'machinelearning default' since it's not the best default for multimodal
