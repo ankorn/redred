@@ -131,3 +131,4 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] yandex cloud function for image proxy
 - [x] handle non existing subreddit
 - [ ] check if proxy image actually understood by model
+- [ ] YCF as proxy for hf
