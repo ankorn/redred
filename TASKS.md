@@ -131,4 +131,7 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] yandex cloud function for image proxy
 - [x] handle non existing subreddit
 - [ ] check if proxy image actually understood by model
-- [ ] YCF as proxy for hf
+- [ ] CORS and regional unavailability of hf
+  - [x] YCF: https://functions.yandexcloud.net/d4eg9ap7ucsan36isgk8
+    - [ ] (bug) fails due to tokenizer file being more then YCF limit of 3.5 MB
+  - [ ] use hf, handle this error and communicate to user
