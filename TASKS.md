@@ -135,4 +135,4 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [x] YCF: https://functions.yandexcloud.net/d4eg9ap7ucsan36isgk8
     - [ ] (bug) fails due to tokenizer file being more then YCF limit of 3.5 MB
   - [ ] use hf, handle this error and communicate to user
-    - [ ] useModel error handling
+    - [ ] useModel error handling: status 503
