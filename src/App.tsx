@@ -49,8 +49,6 @@ function App() {
     });
   };
 
-  console.log(">>>", status);
-
   return (
     <div className="redred-app">
       <header className="app-header">
@@ -103,7 +101,7 @@ function App() {
                   <a href="https://huggingface.co/" target="_blank">
                     HuggingFace
                   </a>{" "}
-                  availability
+                  availability and try again
                 </span>
               )}
             </div>
