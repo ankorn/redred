@@ -22,7 +22,9 @@ function proxyImageUrl(originalUrl: string) {
 
 export function useModel() {
   const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState<"idle" | "loading" | "ready">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "ready" | "loadModelError"
+  >("idle");
 
   const cache = useRef<ModelCache | null>(null);
 
@@ -35,36 +37,41 @@ export function useModel() {
   const downloadModel = useCallback(async () => {
     setStatus("loading");
 
-    const processor = await AutoProcessor.from_pretrained(MODEL_ID);
+    try {
+      const processor = await AutoProcessor.from_pretrained(MODEL_ID);
 
-    const model = await Gemma4ForConditionalGeneration.from_pretrained(
-      MODEL_ID,
-      {
-        dtype: "q4f16",
-        device: "webgpu",
-        progress_callback: (info: any) => {
-          if (
-            info.status === "progress_total" &&
-            typeof info.progress === "number"
-          ) {
-            // magick; otherwise progress jumps to 100 swiftly then back to like 8
-            if (!cached && info.loaded > 271681761) {
-              setProgress(Math.round(info.progress));
+      const model = await Gemma4ForConditionalGeneration.from_pretrained(
+        MODEL_ID,
+        {
+          dtype: "q4f16",
+          device: "webgpu",
+          progress_callback: (info: any) => {
+            if (
+              info.status === "progress_total" &&
+              typeof info.progress === "number"
+            ) {
+              // magick; otherwise progress jumps to 100 swiftly then back to like 8
+              if (!cached && info.loaded > 271681761) {
+                setProgress(Math.round(info.progress));
+              }
             }
-          }
+          },
         },
-      },
-    );
+      );
 
-    cache.current = { processor, model };
+      cache.current = { processor, model };
 
-    localStorage.setItem(
-      CACHE_META_KEY,
-      // no need to save model manually, hf will save if Cache storage
-      JSON.stringify({ cached: true, timestamp: Date.now() }),
-    );
+      localStorage.setItem(
+        CACHE_META_KEY,
+        // no need to save model manually, hf will save if Cache storage
+        JSON.stringify({ cached: true, timestamp: Date.now() }),
+      );
 
-    setStatus("ready");
+      setStatus("ready");
+    } catch (err) {
+      setStatus("loadModelError");
+      console.warn(err);
+    }
   }, []);
 
   useEffect(() => {
@@ -78,7 +85,6 @@ export function useModel() {
       const processor = await AutoProcessor.from_pretrained(MODEL_ID);
 
       setProgress(100);
-
       if (!active) return;
 
       const model = await Gemma4ForConditionalGeneration.from_pretrained(
@@ -109,6 +115,7 @@ export function useModel() {
     };
 
     loadCached();
+
     return () => {
       active = false;
     };

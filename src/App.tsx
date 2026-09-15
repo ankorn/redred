@@ -49,6 +49,8 @@ function App() {
     });
   };
 
+  console.log(">>>", status);
+
   return (
     <div className="redred-app">
       <header className="app-header">
@@ -69,7 +71,7 @@ function App() {
         {!ready ? (
           <>
             <div className="progress-block">
-              {status === "loading" && (
+              {status !== "loadModelError" && status === "loading" && (
                 <>
                   <div className="progress-track">
                     <div
@@ -83,15 +85,26 @@ function App() {
                   </span>
                 </>
               )}
-              {!cached && status !== "loading" && (
-                <>
-                  <button onClick={downloadModel} className="downloadButton">
-                    Download 3.5GB model
-                  </button>
-                  <span className="button-subtext">
-                    This will only happen once
-                  </span>
-                </>
+              {status !== "loadModelError" &&
+                !cached &&
+                status !== "loading" && (
+                  <>
+                    <button onClick={downloadModel} className="downloadButton">
+                      Download 3.5GB model
+                    </button>
+                    <span className="button-subtext">
+                      This will only happen once
+                    </span>
+                  </>
+                )}
+              {status === "loadModelError" && (
+                <span className="load-model-error">
+                  unable to download the model, check{" "}
+                  <a href="https://huggingface.co/" target="_blank">
+                    HuggingFace
+                  </a>{" "}
+                  availability
+                </span>
               )}
             </div>
           </>
@@ -106,7 +119,7 @@ function App() {
           id="subreddit"
           type="text"
           value={subreddit}
-          onChange={(e) => setSubreddit(e.target.value)}
+          onChange={(e) => setSubreddit(e.target.value?.trim())}
           placeholder="machinelearning"
           onKeyDown={(e) => e.key === "Enter" && handleSummarize()}
           disabled={!ready}
