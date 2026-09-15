@@ -101,7 +101,7 @@ function App() {
                   <a href="https://huggingface.co/" target="_blank">
                     HuggingFace
                   </a>{" "}
-                  availability and try again
+                  availability and reload page
                 </span>
               )}
             </div>
