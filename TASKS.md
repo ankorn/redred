@@ -86,6 +86,10 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
     - [x] implement wrapper class
   - [x] fix passing target during eval
   - [ ] eval via ragas
+    - [x] ~~gemini free tier~~: limit is too low
+    - [x] ~~cohere~~: integration with ragas in unstable
+    - [ ] load judge on colab machine
+      - [ ] (bug) SummarizationScore, AnswerCorrectness fails due to timeout
 
 ## delivery ways
 
