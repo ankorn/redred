@@ -88,8 +88,13 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
   - [ ] eval via ragas
     - [x] ~~gemini free tier~~: limit is too low
     - [x] ~~cohere~~: integration with ragas in unstable
-    - [ ] load judge on colab machine
-      - [ ] (bug) SummarizationScore, AnswerCorrectness fails due to timeout
+    - [x] load judge on colab machine
+      - [x] (bug) SummarizationScore, AnswerCorrectness fails due to timeout
+      - [x] smaller model then qwen3 14b
+        - [x] Qwen/Qwen3-4B-Instruct-2507 with no cot
+        - [ ] Qwen/Qwen3-8B-Instruct-2507
+      - [x] (bug) Prompt fix_output_format failed to parse 
+    - [ ] interpret ragas metrics diff
 
 ## delivery ways
 
