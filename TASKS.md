@@ -78,14 +78,14 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
     - initial: rouge1: 0.4346; rougeLsum: 0.2890
     - after 1 epoch: rouge1: 0.4369; rougeLsum: 0.2849
     - after 2 epochs: rouge1: 0.4586; rougeLsum: 0.2976
-    - after 3 epochs: rouge1:0.4605; rougeLsum: 0.3167
+    - after 3 epochs: rouge1: 0.4605; rougeLsum: 0.3167
   - [ ] onnx
     - [x] without unsloth; did't work without hacking
     - [x] push merged
     - [ ] export to onnx without unsloth
     - [x] implement wrapper class
   - [x] fix passing target during eval
-  - [ ] eval via ragas
+  - [x] eval via ragas
     - [x] ~~gemini free tier~~: limit is too low
     - [x] ~~cohere~~: integration with ragas in unstable
     - [x] load judge on colab machine
@@ -94,7 +94,7 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
         - [x] Qwen/Qwen3-4B-Instruct-2507 with no cot
         - [ ] Qwen/Qwen3-8B-Instruct-2507
       - [x] (bug) Prompt fix_output_format failed to parse 
-    - [ ] interpret ragas metrics diff
+  - [x] interpret ragas metrics diff: no significant difference; so rougeLsum improves without model degradation
 
 ## delivery ways
 
