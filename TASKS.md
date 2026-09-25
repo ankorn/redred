@@ -94,7 +94,9 @@ so choosing mRedditSum(small multi-modal human labeled) and gemma4
         - [x] Qwen/Qwen3-4B-Instruct-2507 with no cot
         - [ ] Qwen/Qwen3-8B-Instruct-2507
       - [x] (bug) Prompt fix_output_format failed to parse 
-  - [x] interpret ragas metrics diff: no significant difference; so rougeLsum improves without model degradation
+  - [x] interpret ragas metrics diff
+    - [x] on 22 samples base {'summary_score': 0.4676, 'semantic_similarity': 0.6978} -> ft {'summary_score': 0.4782, 'semantic_similarity': 0.6720}
+    - [ ] 22 samples is not enough to be confident, eval on 300 samples
 
 ## delivery ways
 
