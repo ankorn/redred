@@ -23,7 +23,7 @@ function proxyImageUrl(originalUrl: string) {
 export function useModel() {
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<
-    "idle" | "loading" | "ready" | "loadModelError"
+    "idle" | "loading" | "ready" | "loadModelError" | "unsupportedDeviceError"
   >("idle");
 
   const cache = useRef<ModelCache | null>(null);
@@ -69,7 +69,12 @@ export function useModel() {
 
       setStatus("ready");
     } catch (err) {
-      setStatus("loadModelError");
+      if (String(err)?.includes("device ")) {
+        setStatus("unsupportedDeviceError");
+      } else {
+        setStatus("loadModelError");
+      }
+
       console.warn(err);
     }
   }, []);

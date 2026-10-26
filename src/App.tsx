@@ -104,6 +104,11 @@ function App() {
                   availability and reload page
                 </span>
               )}
+              {status === "unsupportedDeviceError" && (
+                <span className="load-model-error">
+                  unsupported device
+                </span>
+              )}
             </div>
           </>
         ) : (
