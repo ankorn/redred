@@ -69,7 +69,7 @@ export function useModel() {
 
       setStatus("ready");
     } catch (err) {
-      if (String(err)?.includes("device ")) {
+      if (String(err)?.includes("device")) {
         setStatus("unsupportedDeviceError");
       } else {
         setStatus("loadModelError");
